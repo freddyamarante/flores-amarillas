@@ -35,7 +35,7 @@ function addFlower() {
 <template>
   <div ref="container" class="flex justify-center items-center w-screen h-screen overflow-hidden">
     <button 
-      v-if="flowerCount < 10"
+      v-if="flowerCount < 200"
       class="relative z-40 px-4 py-2 rounded-md text-center bg-orange-300 hover:bg-neutral-600 text-neutral-900 hover:text-neutral-50 font-semibold text-2xl" 
       @click="addFlower"
 
@@ -61,7 +61,7 @@ function addFlower() {
       {{ flowerCount }} flores
     </span>
     
-    <div v-if="flowerCount >= 10" class="absolute z-50 w-screen h-screen flex justify-center items-center bg-transparent backdrop-brightness-50">
+    <div v-if="flowerCount >= 200" class="absolute z-50 w-screen h-screen flex justify-center items-center bg-transparent backdrop-brightness-50">
       <div class="bg-slate-50 text-slate-900 p-4 lg:p-24 max-w-sm lg:max-w-full rounded-3xl">
         <h2 class="text-2xl font-semibold text-center">¡Ya no puedes añadir más flores!</h2>
         <p class="text-lg">Has llegado al límite de 200 flores. No sé para qué quieres tantas flores pinche hoe.</p>
