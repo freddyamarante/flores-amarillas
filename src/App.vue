@@ -1,9 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import Flower from './components/Flower.vue'
 import { useElementSize } from '@vueuse/core'
 import { gsap } from 'gsap'
-
 
 const flowers = ref([])
 const flowerCount = ref(0)
@@ -20,13 +19,23 @@ function addFlower() {
     size: Math.random() * (300 - 50) + 50
   }
   flowers.value.push(newFlower)
+
+
+  nextTick(() => {
+    const flowerElement = document.querySelectorAll('.box')[flowers.value.length - 1]
+    gsap.fromTo(flowerElement, 
+      { scale: 0, opacity: 0 }, 
+      { scale: 1, opacity: 1, duration: 0.8, ease: 'bounce.out' } // Pop effect with a bounce
+    )
+  })
 }
 </script>
+
 
 <template>
   <div ref="container" class="flex justify-center items-center w-screen h-screen overflow-hidden">
     <button 
-      v-if="flowerCount < 200"
+      v-if="flowerCount < 10"
       class="relative z-40 px-4 py-2 rounded-md text-center bg-orange-300 hover:bg-neutral-600 text-neutral-900 hover:text-neutral-50 font-semibold text-2xl" 
       @click="addFlower"
 
@@ -38,6 +47,7 @@ function addFlower() {
     <Flower 
       v-for="flower in flowers" 
       :key="flower.id" 
+      class="box"
       :style="{ 
         position: 'absolute', 
         top: `${flower.top}px`, 
@@ -51,8 +61,8 @@ function addFlower() {
       {{ flowerCount }} flores
     </span>
     
-    <div v-if="flowerCount >= 200" class="absolute z-50 w-screen h-screen flex justify-center items-center bg-transparent backdrop-brightness-50">
-      <div class="bg-slate-50 text-slate-900 p-24 rounded-3xl">
+    <div v-if="flowerCount >= 10" class="absolute z-50 w-screen h-screen flex justify-center items-center bg-transparent backdrop-brightness-50">
+      <div class="bg-slate-50 text-slate-900 p-4 lg:p-24 max-w-sm lg:max-w-full rounded-3xl">
         <h2 class="text-2xl font-semibold text-center">¡Ya no puedes añadir más flores!</h2>
         <p class="text-lg">Has llegado al límite de 200 flores. No sé para qué quieres tantas flores pinche hoe.</p>
         <h3 class="mt-8 text-right text-sm">Te amo muchisimo, atentamente: Ate</h3>
